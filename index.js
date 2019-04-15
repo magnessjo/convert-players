@@ -7,6 +7,7 @@ const fs = require('fs');
 
 const fileName = __dirname + '/players.txt';
 
+// Private Function : Get Player By Name Column
 
 function getPlayerName(string, index) {
 
@@ -34,6 +35,8 @@ function getPlayerName(string, index) {
   });
 
 }
+
+// Private Function : Get School By School Column
 
 function getSchool(string, index) {
 
@@ -63,7 +66,23 @@ function getSchool(string, index) {
 
 }
 
-// Make Players
+// Private : Sort playerSchool
+
+function sortPlayers(list) {
+
+  return new Promise( (resolve) => {
+
+    const sorted = list.sort(function(a, b) {
+      return a.name.localeCompare(b.name);
+    });
+
+    resolve(sorted);
+
+  });
+
+}
+
+// Private : Make Players
 
 function makePlayers(rows) {
 
@@ -127,7 +146,8 @@ async function load() {
     if (error) console.log(error);
 
     const rows = await getAllRows(data);
-    const players = await makePlayers(rows);
+    const playersList = await makePlayers(rows);
+    const players = await sortPlayers(playersList);
 
     if (players.length > 0) {
 
